@@ -1,0 +1,2727 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/teams": {
+      "get": {
+        "operationId": "TeamsController_getTeams",
+        "summary": "Get all teams",
+        "description": "Retrieve a list of teams that are supported by the API.\n\nBy utilising either `league`, `name`, `displayName` or `abbreviation` query parameters you can check whether a specific team exists or simply retrieve the associated data.\n\nThere are two other important query parameters. The `limit` parameter defines what the number of returned teams will be. If the number of actual teams is above the `limit` value you can make subsequent requests by increasing the `offset` value.\n",
+        "parameters": [
+          {
+            "name": "x-rapidapi-host",
+            "in": "header",
+            "description": "nfl-ncaa-highlights-api.p.rapidapi.com",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-rapidapi-key",
+            "in": "header",
+            "description": "Rapid API Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": "Bengals",
+            "required": false,
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": "Cincinnati Bengals",
+            "required": false,
+            "name": "displayName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": "CIN",
+            "required": false,
+            "name": "abbreviation",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": "NFL",
+            "required": false,
+            "name": "league",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AmericanFootballTeamResponseDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request descriptive error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "American Football.Teams"
+        ]
+      }
+    },
+    "/teams/statistics/{id}": {
+      "get": {
+        "operationId": "TeamsController_getTeamStatistics",
+        "summary": "Get team statistics",
+        "description": "\n> Refresh interval: Immediately once a match is finished.\n \nRetrieve team stats for each league and season by specifying the team's `id` path parameter. Requires `fromDate` query parameter to be specified in the YYYY-MM-DD format. Additionally, the `timezone` query parameter can be specified to futher narrow down the search results based on your location.\n",
+        "parameters": [
+          {
+            "name": "x-rapidapi-host",
+            "in": "header",
+            "description": "nfl-ncaa-highlights-api.p.rapidapi.com",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-rapidapi-key",
+            "in": "header",
+            "description": "Rapid API Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "example": 92730,
+            "description": "Requested team id.",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "description": "Date that follows the YYYY-MM-DD format.",
+            "example": "2023-08-06",
+            "name": "fromDate",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Valid timezone identifier.",
+            "example": "Europe/London",
+            "required": false,
+            "name": "timezone",
+            "in": "query",
+            "schema": {
+              "default": "Etc/UTC",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AmfTeamStatisticsResponseDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request descriptive error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "American Football.Teams"
+        ]
+      }
+    },
+    "/teams/{id}": {
+      "get": {
+        "operationId": "TeamsController_getTeamById",
+        "summary": "Get team by team id",
+        "description": "Retrieve team information by specifying the team id path parameter.\n\n> Note: Used to check whether a team still exists or had its information updated.",
+        "parameters": [
+          {
+            "name": "x-rapidapi-host",
+            "in": "header",
+            "description": "nfl-ncaa-highlights-api.p.rapidapi.com",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-rapidapi-key",
+            "in": "header",
+            "description": "Rapid API Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "example": 92730,
+            "description": "Requested team id.",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AmericanFootballTeamResponseDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request descriptive error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "American Football.Teams"
+        ]
+      }
+    },
+    "/matches": {
+      "get": {
+        "operationId": "MatchController_getMatches",
+        "summary": "Get all matches",
+        "description": "> Refresh interval: Once a minute\n\n> Route returns only general match information. For additional match details check the `matches/{matchId}` route. \n\nRetrieve a list of matches based on the requested query parameters. \n\nAt least one primary query parameter needs to be specified before you can retrieve the data (`timezone`, `limit`, `offset` are considered secondary).\n\nYou can specify the `timezone` field in combination with the `date` query parameter to get matches relevant to your location.\n\nThere are two other important parameters. The `limit` parameter defines what the number of returned matches will be. If the number of actual matches is above the `limit` value you can make subsequent requests by increasing the `offset` value. \n\nMatches have different possible states they can be in:\n\n| State        | Description |\n| -----------  | ----------- |\n| Postponed  | Match has been postponed due to certain circumstances that are preventing the game from being played. Event start time will be changed to a moment in the future.           |\n| Suspended  |  Match has already been in play but was suspended. In the future the game will resume from the exact point where it was halted.         |\n| Cancelled  |  Game will not be played.         |\n| Abandoned  | Considered \"abandoned\" when it is prematurely ended by the officials and can not be resumed or completed. In the future the game **might be** resumed from the exact point where it was halted.            |\n| Finished  | Match has been concluded.          |\n| Scheduled    |  Match has not been started yet.         |\n| End period  |  Break time between periods.         |\n| Half time  | Half time pause between second and third quarter.          |\n| In progress  | Game is currently in progress.         |\n| Unknown  | Unknown match coverage or state.          |\n\nBelow is an example of what you can aim to achieve with the matches endpoint:\n\n![American football matches example](https://highlightly.net/assets/img/documentation/american-football/matches.png)",
+        "parameters": [
+          {
+            "name": "x-rapidapi-host",
+            "in": "header",
+            "description": "nfl-ncaa-highlights-api.p.rapidapi.com",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-rapidapi-key",
+            "in": "header",
+            "description": "Rapid API Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": "NFL",
+            "required": false,
+            "name": "league",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Date that follows the YYYY-MM-DD format.",
+            "example": "2024-08-23",
+            "required": false,
+            "name": "date",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Valid timezone identifier.",
+            "example": "Europe/London",
+            "required": false,
+            "name": "timezone",
+            "in": "query",
+            "schema": {
+              "default": "Etc/UTC",
+              "type": "string"
+            }
+          },
+          {
+            "example": 2024,
+            "required": false,
+            "name": "season",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "example": 92730,
+            "required": false,
+            "name": "homeTeamId",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "example": 92731,
+            "required": false,
+            "name": "awayTeamId",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "example": "Bengals",
+            "required": false,
+            "name": "homeTeamName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": "Colts",
+            "required": false,
+            "name": "awayTeamName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": "CIN",
+            "required": false,
+            "name": "homeTeamAbbreviation",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": "IND",
+            "required": false,
+            "name": "awayTeamAbbreviation",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": "Cincinnati Bengals",
+            "required": false,
+            "name": "homeTeamDisplayName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": "Indianapolis Colts",
+            "required": false,
+            "name": "awayTeamDisplayName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": 100,
+            "required": false,
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "minimum": 0,
+              "maximum": 100,
+              "default": 100,
+              "type": "number"
+            }
+          },
+          {
+            "example": 0,
+            "required": false,
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "minimum": 0,
+              "default": 0,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AmericanFootballMatchPaginatedResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request descriptive error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "American Football.Matches"
+        ]
+      }
+    },
+    "/matches/{id}": {
+      "get": {
+        "operationId": "MatchController_getMatchById",
+        "summary": "Get match by id",
+        "description": "\nRetrieve detailed match information by specifying the match id path parameter.\n\nFetched data will have additional information about the `venue`, weather `forecast`, `overallStatistics` for each team, `injuries` and `events`.\n\n> Note: Used to retrieve additional match information.\n",
+        "parameters": [
+          {
+            "name": "x-rapidapi-host",
+            "in": "header",
+            "description": "nfl-ncaa-highlights-api.p.rapidapi.com",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-rapidapi-key",
+            "in": "header",
+            "description": "Rapid API Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "example": 49053,
+            "description": "Requested match id.",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AmericanFootballDetailedMatchResponseDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request descriptive error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "American Football.Matches"
+        ]
+      }
+    },
+    "/highlights": {
+      "get": {
+        "operationId": "HighlightsController_getHighlights",
+        "summary": "Get all highlights",
+        "description": "> Refresh interval: Once a minute\n\n> Note: Certain highlights might be uploaded whilst the game is playing. Full game recaps tend to be uploaded anywhere from 1 to 48 hours after a match is finished.\n\n  Highlights represent the core of our API. They include various different kinds of clips ranging from real time live events such as insane plays, last minute scores to full game recaps, pre/post match interviews. \n\nCurrently we aggregate videos from many different sources. Depending on the source and verification process we divide the clips into two categories:\n\n| Type        | Description |\n| ----------- | ----------- |\n| VERIFIED    | Videos come from reputable sources that have been thoroughly inspected. In most cases the clips are from official authors who own the copyrights to the video itself. The hosting platform can impose geo restrictions or prevent direct imbedding (`highlights/geo-restrictions/{highlightId}` route can be used to check for potential restrictions). Verified highlights are uploaded anywhere from 1 to 48 hours of the match being finished. |\n| UNVERIFIED  | Highlights vary and might not have gone through the verification process or are considered user uploaded. Videos include a wide spectrum of topics such as last minute scores, memorable plays, game recaps, etc. Unverified highlights are considered more real time and might be uploaded even when the match is still being played. The lifetime of these clips vary and is dependant on the hosting platform.       |\n\nEach highlight has a `title` which describes what the video is about. Certain entries will have a `description` as well which is used to further describe the associated clip. The `source` field defines where the clip was aggregated from (e.g. would be *youtube*, *twitter*, *reddit*, *espn*, etc.). For certain sources you will see additional information being present in the `channel` field. By utilising this information you can further narrow down which videos you want to showcase. Highlights might also have an `embedUrl` property which is used to directly embed the videos into your website or mobile application.\n\nBelow is an example of what you can aim to achieve with our highlights data:\n\n![Highlights example](https://highlightly.net/assets/img/documentation/american-football/highlights.png)\n\n\n## Retrieve highlights\n\nRetrieve a list of highlights based on the requested query parameters.\n\nAt least one primary query parameter needs to be specified before you can retrieve the data (`timezone`, `limit`, `offset` are considered secondary).\n\nYou can specify the `timezone` field in combination with the `date` query parameter to get highlights relevant to your location.\n\nThere are two other important parameters. The `limit` parameter defines what the number of returned highlights will be. If the number of actual highlights is above the `limit` value you can make subsequent requests by increasing the `offset` value. \n\n> Note: The Basic/Free plan might have certain restrictions in place. More information can be found [here](https://rapidapi.com/highlightly-api-highlightly-api-default/api/nfl-ncaa-highlights-api).\n",
+        "parameters": [
+          {
+            "name": "x-rapidapi-host",
+            "in": "header",
+            "description": "nfl-ncaa-highlights-api.p.rapidapi.com",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-rapidapi-key",
+            "in": "header",
+            "description": "Rapid API Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": "NCAA",
+            "required": false,
+            "name": "leagueName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Date that follows the YYYY-MM-DD format.",
+            "example": "2024-08-31",
+            "required": false,
+            "name": "date",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Valid timezone identifier.",
+            "example": "Europe/London",
+            "required": false,
+            "name": "timezone",
+            "in": "query",
+            "schema": {
+              "default": "Etc/UTC",
+              "type": "string"
+            }
+          },
+          {
+            "example": 2024,
+            "required": false,
+            "name": "season",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "example": 49130,
+            "required": false,
+            "name": "matchId",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "example": 92884,
+            "required": false,
+            "name": "homeTeamId",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "example": 92885,
+            "required": false,
+            "name": "awayTeamId",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "example": "Boilermakers",
+            "required": false,
+            "name": "homeTeamName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": "Sycamores",
+            "required": false,
+            "name": "awayTeamName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": "PUR",
+            "required": false,
+            "name": "homeTeamAbbreviation",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": "INST",
+            "required": false,
+            "name": "awayTeamAbbreviation",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": "Purdue Boilermakers",
+            "required": false,
+            "name": "homeTeamDisplayName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": "Indiana State Sycamores",
+            "required": false,
+            "name": "awayTeamDisplayName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": 40,
+            "required": false,
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "minimum": 0,
+              "maximum": 40,
+              "default": 40,
+              "type": "number"
+            }
+          },
+          {
+            "example": 0,
+            "required": false,
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "minimum": 0,
+              "default": 0,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AmericanFootballHighlightPaginatedResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request descriptive error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "American Football.Highlights"
+        ]
+      }
+    },
+    "/highlights/geo-restrictions/{id}": {
+      "get": {
+        "operationId": "HighlightsController_getGeoRestrictions",
+        "summary": "Get geo restrictions for highlight",
+        "description": "> Refresh interval: Once an hour\n\n> Note: Endpoint is not available in the Basic/Free plan.\n\nGeo restrictions are a plague that have been around for quite a while. They restrict access to online content based on the viewers geographical location. Trying to show restricted highlights to your users can greatly hinder the viewing experience.\n\nEach highlight has a `state` property which defines how the geo restrictions are applied.\n\n| State       | Description   |\n| ----------- | -----------   |\n| No restricitons applied                 | Highlight has no restrictions applied and is available globally.            |   \n| Allowed countries restriction           | Highlight is only available to users whose country code is found in the `allowedCountries` list.             |\n| Blocked countries restriction           | Highlight is blocked to all users whose country code is found in the `blockedCountries` list.               |\n| Unknown restrictions                    | There is no guaranteed way to define all allowed or blocked countries.            |\n\nAs presented before, certain highlights have an `embedUrl` field which can be used to directly embed the video into your website or application. The `embeddable` field specifies whether this is allowed or not. \n",
+        "parameters": [
+          {
+            "name": "x-rapidapi-host",
+            "in": "header",
+            "description": "nfl-ncaa-highlights-api.p.rapidapi.com",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-rapidapi-key",
+            "in": "header",
+            "description": "Rapid API Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "example": 54072,
+            "description": "Requested higlight id.",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestrictionResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request descriptive error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "American Football.Highlights"
+        ]
+      }
+    },
+    "/highlights/{id}": {
+      "get": {
+        "operationId": "HighlightsController_getHighlightById",
+        "summary": "Get highlight by id",
+        "description": "\nRetrieve highlight information by specifying the highlight id path parameter.\n\n> Note: Used to check whether a highlight still exists or had its information updated.\n",
+        "parameters": [
+          {
+            "name": "x-rapidapi-host",
+            "in": "header",
+            "description": "nfl-ncaa-highlights-api.p.rapidapi.com",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-rapidapi-key",
+            "in": "header",
+            "description": "Rapid API Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "example": 54072,
+            "description": "Requested highlight id.",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AmericanFootballHighlightResponseDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request descriptive error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "American Football.Highlights"
+        ]
+      }
+    },
+    "/last-five-games": {
+      "get": {
+        "operationId": "AmericanFootballLastFiveGamesController_getLastFiveGames",
+        "summary": "Get last five finished games for a specific team id",
+        "description": "> Refresh interval: Immediately once a game is considered finished\n\nRetrieve a list of the **last five finished** games for a specific team. If a game was not finished (e.g. was cancelled or postponed) it will *not* be returned.\n\nSpecify `teamId` query parameter to retrieve the data. Endpoint is used to create a form section between two teams that are playing a match. Below is an example of what can be achieved:\n\n![Last five games example](https://highlightly.net/assets/img/documentation/l5g-american-football.png)",
+        "parameters": [
+          {
+            "name": "x-rapidapi-host",
+            "in": "header",
+            "description": "nfl-ncaa-highlights-api.p.rapidapi.com",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-rapidapi-key",
+            "in": "header",
+            "description": "Rapid API Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": 92730,
+            "name": "teamId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AmericanFootballMatchResponseDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request descriptive error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "American Football.Last Five Games"
+        ]
+      }
+    },
+    "/head-2-head": {
+      "get": {
+        "operationId": "AmericanFootballHead2HeadController_getHead2HeadData",
+        "summary": "Get head 2 head games",
+        "description": "Retrieve a list of the **last ten** head 2 head games between two teams. Compare the two teams to find out who is stronger based on their past match results. \n\nSpecify `teamIdOne` and `teamIdTwo` query parameters to retrieve the data. The order of team ids does not matter.\n\nBelow is an example of what you can achieve with the data:\n\n![H2H example](https://highlightly.net/assets/img/documentation/american-football/h2h.png)",
+        "parameters": [
+          {
+            "name": "x-rapidapi-host",
+            "in": "header",
+            "description": "nfl-ncaa-highlights-api.p.rapidapi.com",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-rapidapi-key",
+            "in": "header",
+            "description": "Rapid API Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": 92730,
+            "name": "teamIdOne",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "example": 92731,
+            "name": "teamIdTwo",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AmericanFootballMatchResponseDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request descriptive error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "American Football.Head 2 Head"
+        ]
+      }
+    },
+    "/bookmakers": {
+      "get": {
+        "operationId": "AmericanFootballBookmakersController_getBookmakers",
+        "summary": "Get all bookmakers",
+        "description": "> Refresh interval: Once a day\n\nRetrieve a list of supported bookmakers. \n\nThere are two important parameters that are used to navigate through the pagination. The `limit` parameter defines what the number of returned bookmakers will be. If the number of actual bookmakers is above the `limit` value you can make subsequent requests by increasing the `offset` value. \n\nThe bookmakers `name` or `id` can be used to filter data from the `odds` endpoint. ",
+        "parameters": [
+          {
+            "name": "x-rapidapi-host",
+            "in": "header",
+            "description": "nfl-ncaa-highlights-api.p.rapidapi.com",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-rapidapi-key",
+            "in": "header",
+            "description": "Rapid API Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": "Stake.com",
+            "required": false,
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": 20,
+            "required": false,
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "minimum": 0,
+              "maximum": 100,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "example": 0,
+            "required": false,
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "minimum": 0,
+              "default": 0,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AmericanFootballBookmakersPaginatedResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request descriptive error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "American Football.Bookmakers"
+        ]
+      }
+    },
+    "/bookmakers/{id}": {
+      "get": {
+        "operationId": "AmericanFootballBookmakersController_getBookmakerById",
+        "summary": "Get bookmaker by id",
+        "description": "\nRetrieve bookmaker information by specifying the bookmaker id path parameter.\n\n> Note: Used to check whether a bookmaker still exists or had its information updated.\n",
+        "parameters": [
+          {
+            "name": "x-rapidapi-host",
+            "in": "header",
+            "description": "nfl-ncaa-highlights-api.p.rapidapi.com",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-rapidapi-key",
+            "in": "header",
+            "description": "Rapid API Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "example": 21454,
+            "description": "Requested bookmaker id.",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AmericanFootballBookmakerResponseDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request descriptive error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "American Football.Bookmakers"
+        ]
+      }
+    },
+    "/odds": {
+      "get": {
+        "operationId": "AmericanFootballOddsController_getOddsV2",
+        "summary": "Get all odds",
+        "description": "\n> Prematch odds refresh interval: Multiple times a day\n \n> Live odds refresh interval: Once every 10 minutes\n\n> Note: Endpoint is not available in the Basic/Free plan.\n\nRetrieve a list of match odds based on the requested query parameters. With `oddsType` query parameter you can specify whether you want **prematch** or **live** odds. If you do not set a specific value **prematch** odds will be returned.\n\nAt least one primary query parameter needs to be specified before you can retrieve the data (`timezone`, `limit`, `offset`, `oddsType` are considered secondary).\n\nThe most popular way of getting match odds is by specifying the `matchId` query parameter. You can also utilise the `date` parameter alongside the `timezone` to fetch all match odds for a given day. By specifying league or bookmaker related fields you can further narrow down your search.\n\nAs it stands, we currently offer the support for the following markets:\n\n| Market | Description |\n| ----------- | ----------- |\n| Full Time Result | The possible outcomes for the mentioned market are `Home`, `Away` or `Draw`. |\n| Moneyline | When a match does not have a three-way moneyline it will have a two-way one instead. The possible outcomes for the mentioned market are either `Home` or `Away`. There is no possible way for the game to end in a `Draw`. |\n| Totals | This is considered a complex market. It is split into multiple possible variants such as *\"Totals 25\"*, *\"Totals 25.5\"* and so on. The possible outcome of a variant is either `Over` or `Under`.|\n| Odd or Even| The Odd or Even market defines whether the score of both teams will be either `Odd` or `Even`. |\n\nThere are two other important query parameters. The `limit` parameter defines what the number of returned match odds will be. If the number of actual match odds is above the `limit` value you can make subsequent requests by increasing the `offset` value.\n\n> Match odds are available up to 28 days after the game finishes and up to 7 days before the game starts.\n\nBelow is an example of what can be achieved with bookmaker odds on a match basis:\n\n![Odds example](https://highlightly.net/assets/img/documentation/odds-ha.png)",
+        "parameters": [
+          {
+            "name": "x-rapidapi-host",
+            "in": "header",
+            "description": "nfl-ncaa-highlights-api.p.rapidapi.com",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-rapidapi-key",
+            "in": "header",
+            "description": "Rapid API Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": "prematch",
+            "description": "Defines whether live or prematch odds will be returned.",
+            "required": false,
+            "name": "oddsType",
+            "in": "query",
+            "schema": {
+              "enum": [
+                "prematch",
+                "live"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "example": "NFL",
+            "required": false,
+            "name": "leagueName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Valid timezone identifier.",
+            "example": "Europe/London",
+            "required": false,
+            "name": "timezone",
+            "in": "query",
+            "schema": {
+              "default": "Etc/UTC",
+              "type": "string"
+            }
+          },
+          {
+            "example": 21454,
+            "required": false,
+            "name": "bookmakerId",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "example": 5,
+            "required": false,
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "minimum": 0,
+              "maximum": 5,
+              "default": 5,
+              "type": "number"
+            }
+          },
+          {
+            "example": 0,
+            "required": false,
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "minimum": 0,
+              "default": 0,
+              "type": "number"
+            }
+          },
+          {
+            "required": false,
+            "name": "matchId",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "example": "Stake.com",
+            "required": false,
+            "name": "bookmakerName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Date that follows the YYYY-MM-DD format.",
+            "required": false,
+            "name": "date",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AmericanFootballOddsPaginatedResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request descriptive error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "American Football.Odds"
+        ]
+      }
+    },
+    "/standings": {
+      "get": {
+        "operationId": "AmericanFootballStandingsController_getStandings",
+        "summary": "Get standings",
+        "description": "> Refresh interval: Up to an hour after a match for the associated league and season is finished\n  \n  Retrieve standings data for a specific league, conference or division.\n  \n  There are numerous ways on how to fetch the data. You can utilise either `abbreviation` or `leagueName`:\n\n  | League Name   | Abbreviation  |\n  | -----------   | -----------   |\n  | American Athletic Conference |\tAAC |\n  | Atlantic Coast Conference |\tACC |\n  | Big 12 Conference |\tBIG12 |\n  | Big Ten Conference | BIG10 |\n  | American Football Conference | AFC |\n  | National Football Conference | NFC |\n  | Conference USA | USA |\n  | Mid-American Conference |\tMIDAM |\n  | Mountain West Conference | MWEST |\n  | Pac-12 Conference |\tPAC12 |\n  | Sun Belt - West |\tBELTW |\n  | FBS Independents | IND |\n  | Southeastern Conference |\tSEC |\n  | Sun Belt - East\t| BELTE |\n  | National Football Conference\t| NFC |\n  | American Football Conference\t| AFC |\n\nAdditionally you can specify the `year` parameter to narrow down the the standings for that season.\n\nThere are two other important parameters that are used to navigate through the pagination. The `limit` parameter defines what the number of returned standings will be. If the number of actual standings is above the `limit` value you can make subsequent requests by increasing the `offset` value. \n\nBelow is an example on how you could render league associated standings\n  \n![Standings example](https://highlightly.net/assets/img/documentation/american-football/standings.png)",
+        "parameters": [
+          {
+            "name": "x-rapidapi-host",
+            "in": "header",
+            "description": "nfl-ncaa-highlights-api.p.rapidapi.com",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-rapidapi-key",
+            "in": "header",
+            "description": "Rapid API Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": "NFL",
+            "required": false,
+            "name": "leagueType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": 5,
+            "required": false,
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "minimum": 0,
+              "maximum": 10,
+              "default": 10,
+              "type": "number"
+            }
+          },
+          {
+            "example": 0,
+            "required": false,
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "minimum": 0,
+              "default": 0,
+              "type": "number"
+            }
+          },
+          {
+            "example": "National Football Conference",
+            "required": false,
+            "name": "leagueName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": "NFC",
+            "required": false,
+            "name": "abbreviation",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "example": 2024,
+            "required": false,
+            "name": "year",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AmericanFootballStandingsDataResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request descriptive error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "American Football.Standings"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Highlightly NFL, NCAA API",
+    "description": "Welcome to the biggest NFL, NCAA API. Get access to a centralized hub for diverse and engaging sport highlights to ensure that your sport application remains dynamic, distinctive, and rich in content.\n\n## Contact\n\nFor feature requests, questions, private plans or business inquiries you can contact us at [support@highlightly.net](mailto:support@highlightly.net).\n\nYou can also contact us via [RapidAPI](https://rapidapi.com/highlightly-api-highlightly-api-default/api/nfl-ncaa-highlights-api) by starting a discussion or by sending us a private message.\n\n# RapidAPI integration\n\nTo start using our API services you will first need to create a [RapidAPI account](https://rapidapi.com/auth/sign-up?referral=/highlightly-api-highlightly-api-default/api/nfl-ncaa-highlights-api/pricing). The platform offers you the ability to view the API analytics, manage billing settings, control API keys and much more. \n\n> Please ensure that your API key is **not** made public to prevent potential abuse. Your API key can be managed through the RapidAPI platform.\n\n## API usage\n\n> Base API url: `nfl-ncaa-highlights-api.p.rapidapi.com`\n\nEach API request will be considered valid only if the following headers are present:\n\n| Request Header | Value |\n| ----------- | ----------- |\n| `x-rapidapi-key` | *Your RapidAPI API Key*       |\n| `x-rapidapi-host` | `nfl-ncaa-highlights-api.p.rapidapi.com` |\n\nThese headers are mandatory when requesting API data. They are not needed when requesting other resources such as logos or images.\n\nEach API response will contain additional headers. The following three are considered the most important for developers:\n\n| Response Header   | Value |\n| ----------------  | ----------- |\n| `x-ratelimit-requests-limit`  | This is a static value indicating the number of requests **the plan** you are currently subscribed to allows you to make.       |\n| `x-ratelimit-requests-remaining` | The number of requests remaining (from your plan) before you reach the limit of requests your application is allowed to make. When this reaches zero, you will not be able to make any requests until your daily quota is reset. You can view these limits and quotas on the pricing page of the API in the API Hub. |\n| `content-type` | Value will always be `application/json`. XML format is not supported. |\n\nIn the following sections we will guide you through all endpoints and functionalities the API has to offer.",
+    "version": "5.1.1",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "NFL, NCAA API",
+      "description": ""
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://nfl-ncaa-highlights-api.p.rapidapi.com"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "AmericanFootballTeamResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "logo": {
+            "type": "string",
+            "example": "https://example.com/logos/team/111.png"
+          },
+          "name": {
+            "type": "string",
+            "example": "Saints"
+          },
+          "displayName": {
+            "type": "string",
+            "example": "New Orleans Saints"
+          },
+          "abbreviation": {
+            "type": "string",
+            "example": "NO"
+          },
+          "league": {
+            "type": "string",
+            "example": "NFL"
+          }
+        },
+        "required": [
+          "id",
+          "displayName",
+          "abbreviation",
+          "league"
+        ]
+      },
+      "BadRequestDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Descriptive bad request error message."
+          },
+          "statusCode": {
+            "type": "number",
+            "example": 400
+          }
+        },
+        "required": [
+          "message",
+          "statusCode"
+        ]
+      },
+      "InternalServerErrorDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Internal server error."
+          },
+          "statusCode": {
+            "type": "number",
+            "example": 500
+          }
+        },
+        "required": [
+          "message",
+          "statusCode"
+        ]
+      },
+      "AmfTeamTotalGameStatsResponseDto": {
+        "type": "object",
+        "properties": {
+          "played": {
+            "type": "number",
+            "description": "Number of games team has played during a specific league round.",
+            "example": 67
+          },
+          "wins": {
+            "type": "number",
+            "description": "Number of games team has won during a specific league round.",
+            "example": 24
+          },
+          "loses": {
+            "type": "number",
+            "description": "Number of games team has lost during a specific league round.",
+            "example": 43
+          }
+        },
+        "required": [
+          "played",
+          "wins",
+          "loses"
+        ]
+      },
+      "AmfTeamTotalPointsStatsResponseDto": {
+        "type": "object",
+        "properties": {
+          "scored": {
+            "type": "number",
+            "example": 1369,
+            "description": "Number of points team has scored during a specific league round."
+          },
+          "received": {
+            "type": "number",
+            "example": 1619,
+            "description": "Number of points team has received during a specific league round."
+          }
+        },
+        "required": [
+          "scored",
+          "received"
+        ]
+      },
+      "AmfTeamTotalStatsResponseDto": {
+        "type": "object",
+        "properties": {
+          "games": {
+            "description": "Number of games team has played, won, and lost during a specific league round.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AmfTeamTotalGameStatsResponseDto"
+              }
+            ]
+          },
+          "points": {
+            "description": "Number of points team has scored, and received during a specific league round.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AmfTeamTotalPointsStatsResponseDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "games",
+          "points"
+        ]
+      },
+      "AmfTeamHomeGameStatsResponseDto": {
+        "type": "object",
+        "properties": {
+          "played": {
+            "type": "number",
+            "description": "Number of games team has played as home team during a specific league round.",
+            "example": 33
+          },
+          "wins": {
+            "type": "number",
+            "description": "Number of games team has won as home team during a specific league round.",
+            "example": 13
+          },
+          "loses": {
+            "type": "number",
+            "description": "Number of games team has lost as home team during a specific league round.",
+            "example": 20
+          }
+        },
+        "required": [
+          "played",
+          "wins",
+          "loses"
+        ]
+      },
+      "AmfTeamHomePointsStatsResponseDto": {
+        "type": "object",
+        "properties": {
+          "scored": {
+            "type": "number",
+            "description": "Number of points team has scored whilst playing as home team during a specific league round.",
+            "example": 694
+          },
+          "received": {
+            "type": "number",
+            "description": "Number of points team has received whilst playing as home team during a specific league round.",
+            "example": 713
+          }
+        },
+        "required": [
+          "scored",
+          "received"
+        ]
+      },
+      "AmfTeamHomeStatsResponseDto": {
+        "type": "object",
+        "properties": {
+          "games": {
+            "description": "Number of games team has played, won, and lost during a specific league round, whilst playing as home team.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AmfTeamHomeGameStatsResponseDto"
+              }
+            ]
+          },
+          "points": {
+            "description": "Number of points team has scored and received, during a specific league round, whilst playing as away team.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AmfTeamHomePointsStatsResponseDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "games",
+          "points"
+        ]
+      },
+      "AmfTeamAwayGameStatsResponseDto": {
+        "type": "object",
+        "properties": {
+          "played": {
+            "type": "number",
+            "description": "Number of games team has played as home team during a specific league round.",
+            "example": 34
+          },
+          "wins": {
+            "type": "number",
+            "description": "Number of games team has won as home team during a specific league round.",
+            "example": 11
+          },
+          "loses": {
+            "type": "number",
+            "description": "Number of games team has lost as home team during a specific league round.",
+            "example": 23
+          }
+        },
+        "required": [
+          "played",
+          "wins",
+          "loses"
+        ]
+      },
+      "AmfTeamAwayPointsStatsResponseDto": {
+        "type": "object",
+        "properties": {
+          "scored": {
+            "type": "number",
+            "description": "Number of points team has scored as away team, during a specific league round.",
+            "example": 675
+          },
+          "received": {
+            "type": "number",
+            "description": "Number of points team has received as away team, during a specific league round.",
+            "example": 906
+          }
+        },
+        "required": [
+          "scored",
+          "received"
+        ]
+      },
+      "AmfTeamAwayStatsResponseDto": {
+        "type": "object",
+        "properties": {
+          "games": {
+            "description": "Game related statistics team has played as away team, during a specific league round.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AmfTeamAwayGameStatsResponseDto"
+              }
+            ]
+          },
+          "points": {
+            "description": "Number of points team has scored and received as away team, during a specific league round.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AmfTeamAwayPointsStatsResponseDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "games",
+          "points"
+        ]
+      },
+      "AmfTeamStatisticsResponseDto": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "description": "Total game and points statistics corresponding to specific league round.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AmfTeamTotalStatsResponseDto"
+              }
+            ]
+          },
+          "home": {
+            "description": "Game and point statistics corresponding to specific league round, where the team has played as a home team.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AmfTeamHomeStatsResponseDto"
+              }
+            ]
+          },
+          "away": {
+            "description": "Game and point statistics corresponding to specific league round, where the team has played as an away team.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AmfTeamAwayStatsResponseDto"
+              }
+            ]
+          },
+          "leagueName": {
+            "type": "string",
+            "example": "NFL",
+            "description": "League name to which team statistics are associated."
+          },
+          "round": {
+            "type": "string",
+            "example": "regular-season",
+            "description": "Round to which team statistics are associated."
+          }
+        },
+        "required": [
+          "total",
+          "home",
+          "away",
+          "leagueName",
+          "round"
+        ]
+      },
+      "AmericanFootballMatchTeamResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "logo": {
+            "type": "string",
+            "example": "https://example.com/logos/team/111.png"
+          },
+          "name": {
+            "type": "string",
+            "example": "Saints"
+          },
+          "displayName": {
+            "type": "string",
+            "example": "New Orleans Saints"
+          },
+          "abbreviation": {
+            "type": "string",
+            "example": "NO"
+          }
+        },
+        "required": [
+          "id",
+          "displayName",
+          "abbreviation"
+        ]
+      },
+      "AmericanFootballMatchScoreResponseDto": {
+        "type": "object",
+        "properties": {
+          "current": {
+            "type": "string",
+            "example": "21 - 7",
+            "description": "Home - Away score for the match."
+          },
+          "firstPeriod": {
+            "type": "string",
+            "example": "0 - 0",
+            "description": "Home - Away score in 1st period."
+          },
+          "secondPeriod": {
+            "type": "string",
+            "example": "7 - 7",
+            "description": "Home - Away score in 2nd period."
+          },
+          "thirdPeriod": {
+            "type": "string",
+            "example": "7 - 0",
+            "description": "Home - Away score in 3rd period."
+          },
+          "fourthPeriod": {
+            "type": "string",
+            "example": "7 - 0",
+            "description": "Home - Away score in 4th period."
+          },
+          "firstOvertimePeriod": {
+            "type": "string",
+            "example": "7 - 0",
+            "description": "Home - Away score in the first overtime period."
+          },
+          "secondOvertimePeriod": {
+            "type": "string",
+            "example": "7 - 0",
+            "description": "Home - Away score in the second overtime period."
+          }
+        }
+      },
+      "AmericanFootballMatchStateResponseDto": {
+        "type": "object",
+        "properties": {
+          "period": {
+            "type": "number",
+            "description": "Current in play period.",
+            "example": 2
+          },
+          "clock": {
+            "type": "number",
+            "description": "Current minute of the in play period.",
+            "example": 8
+          },
+          "description": {
+            "type": "string",
+            "enum": [
+              "Suspended",
+              "Postponed",
+              "Cancelled",
+              "Abandoned",
+              "Finished",
+              "In progress",
+              "End period",
+              "Half time",
+              "Unknown",
+              "Scheduled"
+            ],
+            "example": "In progress",
+            "description": "Current status/description of the match."
+          },
+          "score": {
+            "$ref": "#/components/schemas/AmericanFootballMatchScoreResponseDto"
+          },
+          "report": {
+            "type": "string",
+            "example": "Final",
+            "description": "Additional description of the match state."
+          }
+        },
+        "required": [
+          "description",
+          "score"
+        ]
+      },
+      "AmericanFootballMatchResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "round": {
+            "type": "string",
+            "example": "Regular Season - 32"
+          },
+          "date": {
+            "type": "string",
+            "example": "2023-05-20T15:30:00.000Z"
+          },
+          "league": {
+            "type": "string",
+            "example": "NFL"
+          },
+          "season": {
+            "type": "number",
+            "example": 2023
+          },
+          "awayTeam": {
+            "$ref": "#/components/schemas/AmericanFootballMatchTeamResponseDto"
+          },
+          "homeTeam": {
+            "$ref": "#/components/schemas/AmericanFootballMatchTeamResponseDto"
+          },
+          "state": {
+            "$ref": "#/components/schemas/AmericanFootballMatchStateResponseDto"
+          }
+        },
+        "required": [
+          "id",
+          "round",
+          "date",
+          "league",
+          "season",
+          "awayTeam",
+          "homeTeam",
+          "state"
+        ]
+      },
+      "PaginationResponseDto": {
+        "type": "object",
+        "properties": {
+          "totalCount": {
+            "type": "number",
+            "description": "Available number of items, relevant to the provided query.",
+            "example": 490
+          },
+          "offset": {
+            "type": "number",
+            "example": 20
+          },
+          "limit": {
+            "type": "number",
+            "example": 100
+          }
+        },
+        "required": [
+          "totalCount",
+          "offset",
+          "limit"
+        ]
+      },
+      "PlanResponseDto": {
+        "type": "object",
+        "properties": {
+          "tier": {
+            "type": "string",
+            "description": "Your current API subscription tier.",
+            "example": "BASIC"
+          },
+          "message": {
+            "type": "string",
+            "description": "Explanation message regarding your current tier.",
+            "example": "Some results might be hidden with FREE tier. Check your API coverage for more information: https://rapidapi.com/highlightly-api-highlightly-api-default/api/sport-highlights-api/details"
+          }
+        },
+        "required": [
+          "tier",
+          "message"
+        ]
+      },
+      "AmericanFootballMatchPaginatedResponseDto": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AmericanFootballMatchResponseDto"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationResponseDto"
+          },
+          "plan": {
+            "$ref": "#/components/schemas/PlanResponseDto"
+          }
+        },
+        "required": [
+          "data",
+          "pagination",
+          "plan"
+        ]
+      },
+      "AmericanFootballMatchVenueResponseDto": {
+        "type": "object",
+        "properties": {
+          "city": {
+            "type": "string",
+            "example": "Baltimore"
+          },
+          "name": {
+            "type": "string",
+            "example": "M&T Bank Stadium"
+          },
+          "state": {
+            "type": "string",
+            "example": "MD"
+          }
+        },
+        "required": [
+          "city",
+          "name",
+          "state"
+        ]
+      },
+      "DetailedMatchForecastResponseDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "cloudy"
+          },
+          "temperature": {
+            "type": "string",
+            "example": "11.97°C"
+          }
+        }
+      },
+      "AmericanFootballOverallStatsItemResponseDto": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "example": "16.0"
+          },
+          "displayName": {
+            "type": "string",
+            "example": "Points per game"
+          }
+        },
+        "required": [
+          "value",
+          "displayName"
+        ]
+      },
+      "AmericanFootballTeamDataResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 35
+          },
+          "logo": {
+            "type": "string",
+            "example": "https://highlightly.net/american-football/images/teams/35.png"
+          },
+          "name": {
+            "type": "string",
+            "example": "Saints"
+          },
+          "league": {
+            "type": "string",
+            "example": "NFL"
+          },
+          "displayName": {
+            "type": "string",
+            "example": "New Orleans Saints"
+          },
+          "abbreviation": {
+            "type": "string",
+            "example": "NO"
+          }
+        },
+        "required": [
+          "id",
+          "logo",
+          "name",
+          "league",
+          "displayName",
+          "abbreviation"
+        ]
+      },
+      "AmericanFootballOverallStatsResponseDto": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AmericanFootballOverallStatsItemResponseDto"
+            }
+          },
+          "team": {
+            "$ref": "#/components/schemas/AmericanFootballTeamDataResponseDto"
+          }
+        },
+        "required": [
+          "data",
+          "team"
+        ]
+      },
+      "AmericanFootballInjuryItemPlayerDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Alvin Kamara"
+          },
+          "jersey": {
+            "type": "number",
+            "example": 41
+          },
+          "position": {
+            "type": "string",
+            "example": "Running Back"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "AmericanFootballInjuryDataItem": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "Questionable"
+          },
+          "player": {
+            "$ref": "#/components/schemas/AmericanFootballInjuryItemPlayerDto"
+          }
+        },
+        "required": [
+          "status",
+          "player"
+        ]
+      },
+      "AmericanFootballInjuriesResponseDto": {
+        "type": "object",
+        "properties": {
+          "team": {
+            "$ref": "#/components/schemas/AmericanFootballTeamDataResponseDto"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AmericanFootballInjuryDataItem"
+            }
+          }
+        },
+        "required": [
+          "team",
+          "data"
+        ]
+      },
+      "AmericanFootballEventStartEndPeriodResponseDto": {
+        "type": "object",
+        "properties": {
+          "clock": {
+            "type": "string",
+            "example": "11:43"
+          },
+          "period": {
+            "type": "string",
+            "example": "1st quarter"
+          },
+          "yardLine": {
+            "type": "number",
+            "example": 40
+          }
+        },
+        "required": [
+          "clock",
+          "period",
+          "yardLine"
+        ]
+      },
+      "AmericanFootballEventResponseDto": {
+        "type": "object",
+        "properties": {
+          "end": {
+            "$ref": "#/components/schemas/AmericanFootballEventStartEndPeriodResponseDto"
+          },
+          "team": {
+            "$ref": "#/components/schemas/AmericanFootballTeamDataResponseDto"
+          },
+          "plays": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "start": {
+            "$ref": "#/components/schemas/AmericanFootballEventStartEndPeriodResponseDto"
+          },
+          "result": {
+            "type": "string",
+            "example": "Punt"
+          },
+          "description": {
+            "type": "string",
+            "example": "5 plays, 6 yards, 3:17"
+          },
+          "isScoringPlay": {
+            "type": "boolean",
+            "example": false
+          }
+        },
+        "required": [
+          "end",
+          "team",
+          "plays",
+          "start",
+          "result",
+          "description",
+          "isScoringPlay"
+        ]
+      },
+      "AmericanFootballDetailedMatchResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "round": {
+            "type": "string",
+            "example": "Regular Season - 32"
+          },
+          "date": {
+            "type": "string",
+            "example": "2023-05-20T15:30:00.000Z"
+          },
+          "league": {
+            "type": "string",
+            "example": "NFL"
+          },
+          "season": {
+            "type": "number",
+            "example": 2023
+          },
+          "awayTeam": {
+            "$ref": "#/components/schemas/AmericanFootballMatchTeamResponseDto"
+          },
+          "homeTeam": {
+            "$ref": "#/components/schemas/AmericanFootballMatchTeamResponseDto"
+          },
+          "state": {
+            "$ref": "#/components/schemas/AmericanFootballMatchStateResponseDto"
+          },
+          "venue": {
+            "$ref": "#/components/schemas/AmericanFootballMatchVenueResponseDto"
+          },
+          "forecast": {
+            "$ref": "#/components/schemas/DetailedMatchForecastResponseDto"
+          },
+          "overallStatistics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AmericanFootballOverallStatsResponseDto"
+            }
+          },
+          "injuries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AmericanFootballInjuriesResponseDto"
+            }
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AmericanFootballEventResponseDto"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "round",
+          "date",
+          "league",
+          "season",
+          "awayTeam",
+          "homeTeam",
+          "state"
+        ]
+      },
+      "AmericanFootballHighlightResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "type": {
+            "type": "string",
+            "example": "VERIFIED"
+          },
+          "imgUrl": {
+            "type": "string",
+            "description": "Preview picture of the highlight.",
+            "example": "https://example.com/images/preview/1.png"
+          },
+          "title": {
+            "type": "string",
+            "example": "NFL: New Orleans Saints vs Kansas City Chiefs"
+          },
+          "description": {
+            "type": "string",
+            "example": "Game recap of the match."
+          },
+          "url": {
+            "type": "string",
+            "description": "Url location of the video highlight.",
+            "example": "https://example.com/highlight/v23r23fds2cff"
+          },
+          "embedUrl": {
+            "type": "string",
+            "description": "Url of embeddable video highlight.",
+            "example": "https://example.com/embed/v23r23fds2cff"
+          },
+          "match": {
+            "$ref": "#/components/schemas/AmericanFootballMatchResponseDto"
+          },
+          "channel": {
+            "type": "string",
+            "example": "NFL",
+            "description": "Channel title of a given highlight."
+          },
+          "source": {
+            "type": "string",
+            "example": "youtube",
+            "description": "Aggregation source from social media and other equivalent platforms."
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "title",
+          "url",
+          "match"
+        ]
+      },
+      "AmericanFootballHighlightPaginatedResponseDto": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AmericanFootballHighlightResponseDto"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationResponseDto"
+          },
+          "plan": {
+            "$ref": "#/components/schemas/PlanResponseDto"
+          }
+        },
+        "required": [
+          "data",
+          "pagination",
+          "plan"
+        ]
+      },
+      "RestrictionResponseDto": {
+        "type": "object",
+        "properties": {
+          "state": {
+            "type": "string",
+            "enum": [
+              "No restricitons applied",
+              "Allowed countries restriction",
+              "Blocked countries restriction",
+              "Unknown restrictions"
+            ],
+            "example": "Allowed countries restriction",
+            "description": "Specifies which restriction rule is applied to the requested highlight. If allowed restriction is applied, read from allowedCountries field. When blocked restriction is applied, countries from blockedCountries field are applied."
+          },
+          "allowedCountries": {
+            "example": [
+              "IT"
+            ],
+            "description": "ISO 3166 two letter country list of allowed countries when restriction rules is in allowed state.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "blockedCountries": {
+            "example": [],
+            "description": "ISO 3166 two letter country list of blocked countries. Rule list is valid when restriction rules is in blocked state.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "embeddable": {
+            "type": "boolean",
+            "example": true,
+            "description": "Boolean flag which indicates whether highlight provider allows embedding inside web applications."
+          }
+        },
+        "required": [
+          "state",
+          "allowedCountries",
+          "blockedCountries",
+          "embeddable"
+        ]
+      },
+      "AmericanFootballBookmakerResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 53
+          },
+          "name": {
+            "type": "string",
+            "example": "Megapari Sport"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "AmericanFootballBookmakersPaginatedResponseDto": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AmericanFootballBookmakerResponseDto"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationResponseDto"
+          },
+          "plan": {
+            "$ref": "#/components/schemas/PlanResponseDto"
+          }
+        },
+        "required": [
+          "data",
+          "pagination",
+          "plan"
+        ]
+      },
+      "AmericanFootballMarketSelectionResponseDto": {
+        "type": "object",
+        "properties": {
+          "odd": {
+            "type": "number",
+            "example": 2.8
+          },
+          "value": {
+            "type": "string",
+            "example": "Home"
+          }
+        },
+        "required": [
+          "odd",
+          "value"
+        ]
+      },
+      "AmericanFootballMarketResponseDto": {
+        "type": "object",
+        "properties": {
+          "bookmakerId": {
+            "type": "number",
+            "example": 53
+          },
+          "bookmakerName": {
+            "type": "string",
+            "example": "Megapari Sport"
+          },
+          "type": {
+            "type": "string",
+            "example": "prematch"
+          },
+          "market": {
+            "type": "string",
+            "example": "Odd or Even"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AmericanFootballMarketSelectionResponseDto"
+            }
+          }
+        },
+        "required": [
+          "bookmakerId",
+          "type",
+          "market",
+          "values"
+        ]
+      },
+      "AmericanFootballOddsResponseDto": {
+        "type": "object",
+        "properties": {
+          "matchId": {
+            "type": "number",
+            "example": 394
+          },
+          "odds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AmericanFootballMarketResponseDto"
+            }
+          }
+        },
+        "required": [
+          "matchId",
+          "odds"
+        ]
+      },
+      "AmericanFootballOddsPaginatedResponseDto": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AmericanFootballOddsResponseDto"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationResponseDto"
+          },
+          "plan": {
+            "$ref": "#/components/schemas/PlanResponseDto"
+          }
+        },
+        "required": [
+          "data",
+          "pagination",
+          "plan"
+        ]
+      },
+      "AmericanFootballStandingsTeamResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 3
+          },
+          "logo": {
+            "type": "string",
+            "example": "https://highlightly.net/american-football/images/teams/3.png"
+          },
+          "name": {
+            "type": "string",
+            "example": "Broncos"
+          },
+          "displayName": {
+            "type": "string",
+            "example": "Denver Broncos"
+          },
+          "abbreviation": {
+            "type": "string",
+            "example": "DEN"
+          }
+        },
+        "required": [
+          "id",
+          "logo",
+          "name",
+          "displayName",
+          "abbreviation"
+        ]
+      },
+      "AmericanFootballStatsValueResponseDto": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "example": "+4"
+          },
+          "displayName": {
+            "type": "string",
+            "example": "Differential"
+          }
+        },
+        "required": [
+          "value",
+          "displayName"
+        ]
+      },
+      "AmericanFootballTeamStatsResponseDto": {
+        "type": "object",
+        "properties": {
+          "team": {
+            "$ref": "#/components/schemas/AmericanFootballStandingsTeamResponseDto"
+          },
+          "statistics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AmericanFootballStatsValueResponseDto"
+            }
+          }
+        },
+        "required": [
+          "team",
+          "statistics"
+        ]
+      },
+      "AmericanFootballStandingsDataResponseDto": {
+        "type": "object",
+        "properties": {
+          "leagueName": {
+            "type": "string",
+            "example": "American Football Conference"
+          },
+          "abbreviation": {
+            "type": "string",
+            "example": "AFC"
+          },
+          "year": {
+            "type": "number",
+            "example": 2024
+          },
+          "leagueType": {
+            "type": "string",
+            "example": "NFL"
+          },
+          "seasonType": {
+            "type": "string",
+            "example": "Preseason"
+          },
+          "startDate": {
+            "type": "string",
+            "example": "2024-08-01T07:00:00.000Z"
+          },
+          "endDate": {
+            "type": "string",
+            "example": "2024-09-05T06:59:00.000Z"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AmericanFootballTeamStatsResponseDto"
+            }
+          }
+        },
+        "required": [
+          "leagueName",
+          "abbreviation",
+          "year",
+          "leagueType",
+          "seasonType",
+          "startDate",
+          "endDate",
+          "data"
+        ]
+      }
+    }
+  }
+}
