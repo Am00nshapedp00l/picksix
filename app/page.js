@@ -20,7 +20,7 @@ export default function Page() {
             Explore fixtures, standings, and match highlights all in one place.
           </p>
           <div className="flex space-x-4">
-            <Link href="/fixtures" legacyBehavior>
+            <Link href="/pages/fixtures" legacyBehavior>
               <a className="btn-primary">Fixtures</a>
             </Link>
             <Link href="/standings" legacyBehavior>

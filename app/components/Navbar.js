@@ -8,7 +8,7 @@ export default function Navbar() {
       <a className="text-white text-xl font-bold">Pick Six</a>
       </Link>
       <div className="space-x-4">
-      <Link legacyBehavior href="/fixtures">
+      <Link legacyBehavior href="/pages/fixtures">
         <a className="text-gray-300">Fixtures</a>
       </Link>
       <Link legacyBehavior href="/standings">

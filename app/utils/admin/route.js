@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+
 
 const apiClient = axios.create({
   baseURL: 'https://nfl-ncaa-highlights-api.p.rapidapi.com',
@@ -10,7 +10,7 @@ const apiClient = axios.create({
   },
 });
 
-const prisma = new PrismaClient();
+
 
 // Generic Fetch Function
 const fetchData = async (endpoint, params = {}) => {
@@ -33,6 +33,42 @@ const fetchHighlights = async () => {
     throw error;
   }
 };
+
+const fetchFixtures = async () => {
+  setLoading(true);
+  setError(null);
+
+  const dateParam = date ? `&date=${date}` : "";
+  const url = `https://nfl-ncaa-highlights-api.p.rapidapi.com/matches?leagueType=${league}&limit=${limit}&offset=${currentPage * limit}${dateParam}`;
+
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "x-rapidapi-host": "nfl-ncaa-highlights-api.p.rapidapi.com",
+        "x-rapidapi-key": process.env.NEXT_PUBLIC_RAPIDAPI_KEY,
+      },
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      console.error("API Error Details:", error);
+      throw new Error(
+        error.message || `Failed with status code: ${response.status}`
+      );
+    }
+
+    const data = await response.json();
+    console.log("Fetched Fixtures Data:", data);
+    setFixtures(data.matches || []);
+  } catch (err) {
+    console.error("Fetch Error:", err);
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
 // GET Method
 export async function GET(req) {
