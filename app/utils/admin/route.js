@@ -13,7 +13,7 @@ const apiClient = axios.create({
 const prisma = new PrismaClient();
 
 // Generic Fetch Function
-export const fetchData = async (endpoint, params = {}) => {
+const fetchData = async (endpoint, params = {}) => {
   try {
     const response = await apiClient.get(endpoint, { params });
     return response.data;
@@ -23,7 +23,8 @@ export const fetchData = async (endpoint, params = {}) => {
   }
 };
 
-export const fetchHighlights = async () => {
+// Fetch Highlights Function
+const fetchHighlights = async () => {
   try {
     const response = await apiClient.get('/matches/highlights');
     return response.data; // Adjust based on API response structure
@@ -31,16 +32,16 @@ export const fetchHighlights = async () => {
     console.error('Error fetching highlights:', error);
     throw error;
   }
-};  
+};
 
+// GET Method
 export async function GET(req) {
   try {
-    const response = await apiClient.get('/matches/highlights');
-    return NextResponse.json(response.data, {
+    const highlights = await fetchHighlights();
+    return NextResponse.json(highlights, {
       status: 200,
     });
   } catch (error) {
-    console.error('Error fetching highlights:', error);
     return NextResponse.json(
       { error: 'Failed to fetch highlights' },
       {
@@ -50,6 +51,7 @@ export async function GET(req) {
   }
 }
 
+// POST Method Example
 export async function POST(req) {
   try {
     // Example: Fetch all admins using Prisma
