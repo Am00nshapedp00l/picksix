@@ -5,7 +5,6 @@ import axios from 'axios';
 export default function StandingsDisplay() {
   const [standings, setStandings] = useState([]);
   const [league, setLeague] = useState("NFL");
-  const [year, setYear] = useState(2024);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [order, setOrder] = useState({ field: "wins", direction: "desc" });
@@ -15,6 +14,7 @@ export default function StandingsDisplay() {
     setError(null);
 
     try {
+      const currentYear = new Date().getFullYear();
       const response = await axios.get(
         `https://nfl-ncaa-highlights-api.p.rapidapi.com/standings`,
         {
@@ -24,13 +24,32 @@ export default function StandingsDisplay() {
           },
           params: {
             leagueType: league,
-            year: year,
+            year: currentYear,
           },
         }
       );
 
-      const data = response.data;
-      setStandings(data.data || []);
+      // Filter for regular season only and get most recent tables
+      const regularSeasonStandings = response.data.data.filter(conference => 
+        conference.seasonType.toLowerCase() === 'regular season'
+      );
+
+      // Group by conference name and take only the second entry
+      const conferenceGroups = {};
+      regularSeasonStandings.forEach(conference => {
+        if (!conferenceGroups[conference.leagueName]) {
+          conferenceGroups[conference.leagueName] = [];
+        }
+        conferenceGroups[conference.leagueName].push(conference);
+      });
+
+      // Get only the second table for each conference (most recent)
+      const filteredStandings = Object.values(conferenceGroups)
+        .map(group => group.length > 1 ? group[1] : group[0])
+        .filter(Boolean);
+
+      setStandings(filteredStandings || []);
+
     } catch (err) {
       setError(err.message);
     } finally {
@@ -40,7 +59,7 @@ export default function StandingsDisplay() {
 
   useEffect(() => {
     fetchStandings();
-  }, [league, year]);
+  }, [league]);
 
   const sortTeams = (teams) => {
     return [...teams].sort((a, b) => {
@@ -55,45 +74,38 @@ export default function StandingsDisplay() {
   if (!standings.length) return <p className="text-center text-gray-500">No data available.</p>;
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex justify-between mb-4">
+    <div className="container mx-auto p-4 bg-gray-900 rounded-lg">
+      <div className="flex justify-end mb-4">
         <select
           value={league}
           onChange={(e) => setLeague(e.target.value)}
-          className="p-2 border border-gray-300 rounded"
+          className="p-2 border border-gray-700 rounded bg-gray-800 text-white"
         >
           <option value="NFL">NFL</option>
-          <option value="NCAA">NCAA</option>
         </select>
-        <input
-          type="number"
-          value={year}
-          onChange={(e) => setYear(Number(e.target.value))}
-          className="p-2 border border-gray-300 rounded"
-          min="1900"
-          max="2099"
-        />
       </div>
       <div className="space-y-8">
-        {standings.map((conference) => (
+        {standings.map((conference, index) => (
           <div 
-            key={`${conference.leagueName}-${conference.seasonType}-${conference.abbreviation}`} 
-            className="overflow-x-auto"
+            key={`${conference.leagueName}-${conference.seasonType}-${conference.abbreviation}-${index}`} 
+            className="overflow-x-auto bg-gray-800 rounded-lg p-4"
           >
-            <h2 className="text-xl font-bold mb-4">
-              {conference.leagueName} - {conference.seasonType}
+            <h2 className="text-xl font-bold mb-4 text-white">
+              {conference.leagueName}
             </h2>
-            <table className="min-w-full bg-white shadow-md rounded-lg">
-              <thead className="bg-gray-200">
+            <table className="min-w-full bg-gray-800 shadow-xl rounded-lg">
+              <thead className="bg-gray-700">
                 <tr>
-                  <th className="px-4 py-2 text-left">Team</th>
-                  <th className="px-4 py-2 text-center cursor-pointer" onClick={() => handleSortChange("wins")}>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider">Team</th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-200 uppercase tracking-wider cursor-pointer" 
+                      onClick={() => handleSortChange("wins")}>
                     Wins {order.field === "wins" && (order.direction === "asc" ? "↑" : "↓")}
                   </th>
-                  <th className="px-4 py-2 text-center cursor-pointer" onClick={() => handleSortChange("losses")}>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-200 uppercase tracking-wider cursor-pointer"
+                      onClick={() => handleSortChange("losses")}>
                     Losses {order.field === "losses" && (order.direction === "asc" ? "↑" : "↓")}
                   </th>
-                  <th className="px-4 py-2 text-center">Win %</th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-200 uppercase tracking-wider">Win %</th>
                 </tr>
               </thead>
               <tbody>
