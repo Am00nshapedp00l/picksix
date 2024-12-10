@@ -11,10 +11,10 @@ export default function Navbar() {
       <Link legacyBehavior href="/pages/fixtures">
         <a className="text-gray-300">Fixtures</a>
       </Link>
-      <Link legacyBehavior href="/standings">
+      <Link legacyBehavior href="/pages/standings">
         <a className="text-gray-300">Standings</a>
       </Link>
-      <Link legacyBehavior href="/highlights">
+      <Link legacyBehavior href="/pages/highlights">
         <a className="text-gray-300">Highlights</a>
       </Link>
       </div>

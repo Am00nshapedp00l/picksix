@@ -23,10 +23,10 @@ export default function Page() {
             <Link href="/pages/fixtures" legacyBehavior>
               <a className="btn-primary">Fixtures</a>
             </Link>
-            <Link href="/standings" legacyBehavior>
+            <Link href="/pages/standings" legacyBehavior>
               <a className="btn-primary">Standings</a>
             </Link>
-            <Link href="/highlights" legacyBehavior>
+            <Link href="/pages/highlights" legacyBehavior>
               <a className="btn-primary">Highlights</a>
             </Link>
           </div>
