@@ -7,7 +7,7 @@ export default function StandingsDisplay() {
   const [league, setLeague] = useState("NFL");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [order, setOrder] = useState({ field: "wins", direction: "desc" });
+  const [order] = useState({ field: "wins", direction: "desc" });
 
   const fetchStandings = async () => {
     setLoading(true);
